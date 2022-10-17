@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import config from 'src/config';
 
+import { AuthModule } from 'src/auth/auth.module';
 import { AppController } from './app.controller';
 
 @Module({
@@ -12,6 +13,7 @@ import { AppController } from './app.controller';
       cache: true,
       load: [config],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [],
