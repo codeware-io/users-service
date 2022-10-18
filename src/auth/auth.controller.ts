@@ -9,12 +9,17 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async googleSignIn(@Req() req) {}
+  async googleSignIn(@Req() req) {
+    return {
+      status: 'success',
+      message: 'You are already logged in!',
+    };
+  }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleCallback(@Req() req) {
+    console.log('User', req.user);
     return this.service.googleSignIn(req);
   }
 }
