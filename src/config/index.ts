@@ -14,4 +14,11 @@ export default (): ConfigObject => ({
     clientSecret: process.env?.FACEBOOK_CLIENT_SECRET ?? null,
     scope: process.env?.FACEBOOK_SCOPE.split(','),
   },
+  jwt: {
+    secret: process.env?.JWT_SECRET ?? null,
+    refreshSecret: process.env?.JWT_REFRESH_SECRET ?? null,
+    expires: process.env?.JWT_EXPIRES ?? null,
+    refreshExpires: process.env?.JWT_REFRESH_EXPIRES ?? null,
+    issuer: process.env?.JWT_ISSUER ?? null,
+  },
 });
