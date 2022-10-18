@@ -9,4 +9,9 @@ export default (): ConfigObject => ({
     clientSecret: process.env?.GOOGLE_CLIENT_SECRET ?? null,
     scope: process.env?.GOOGLE_SCOPE.split(','),
   },
+  facebook: {
+    clientID: process.env?.FACEBOOK_CLIENT_ID ?? null,
+    clientSecret: process.env?.FACEBOOK_CLIENT_SECRET ?? null,
+    scope: process.env?.FACEBOOK_SCOPE.split(','),
+  },
 });

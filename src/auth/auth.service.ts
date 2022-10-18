@@ -8,4 +8,11 @@ export class AuthService {
       user: req?.user,
     };
   }
+
+  async facebookSignIn(req) {
+    return {
+      message: 'User info from google',
+      user: req?.user,
+    };
+  }
 }
