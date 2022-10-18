@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { GoogleAuthStrategy } from './strategies/googleAuth.strategy';
+import { GoogleAuthStrategy } from './strategies/google.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
 
 import { AuthController } from './auth.controller';
