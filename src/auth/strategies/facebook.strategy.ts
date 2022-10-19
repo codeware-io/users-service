@@ -2,9 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-facebook';
+import { StrategyNames } from 'src/common/enums';
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
+export class FacebookStrategy extends PassportStrategy(
+  Strategy,
+  StrategyNames.Facebook,
+) {
   constructor(private readonly config: ConfigService) {
     super({
       clientID: config.get<string>('facebook.clientID'),

@@ -1,5 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { StrategyNames } from 'src/common/enums';
 
 import { AuthService } from './auth.service';
 
@@ -8,7 +9,7 @@ export class AuthController {
   constructor(private readonly service: AuthService) {}
 
   @Get('/google')
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(AuthGuard(StrategyNames.Google))
   async googleSignIn(@Req() req) {
     return {
       status: 'success',
@@ -17,14 +18,14 @@ export class AuthController {
   }
 
   @Get('/google/callback')
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(AuthGuard(StrategyNames.Google))
   async googleCallback(@Req() req) {
     console.log('User', req.user);
     return this.service.googleSignIn(req);
   }
 
   @Get('/facebook')
-  @UseGuards(AuthGuard('facebook'))
+  @UseGuards(AuthGuard(StrategyNames.Facebook))
   async facebookSignIn(@Req() req) {
     return {
       status: 'success',
@@ -33,7 +34,7 @@ export class AuthController {
   }
 
   @Get('/facebook/callback')
-  @UseGuards(AuthGuard('facebook'))
+  @UseGuards(AuthGuard(StrategyNames.Facebook))
   async facebookCallback(@Req() req) {
     console.log('User', req.user);
     return this.service.facebookSignIn(req);
