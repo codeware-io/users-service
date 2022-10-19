@@ -33,6 +33,7 @@ export class GoogleAuthStrategy extends PassportStrategy(
       lastName: name.familyName,
       picture: photos[0].value,
       accessToken,
+      refreshToken,
     };
 
     done(null, user);

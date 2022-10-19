@@ -5,6 +5,7 @@ import config from 'src/config';
 
 import { AuthModule } from 'src/auth/auth.module';
 import { AppController } from './app.controller';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AppController } from './app.controller';
       cache: true,
       load: [config],
     }),
+    PrismaModule,
     AuthModule,
   ],
   controllers: [AppController],
