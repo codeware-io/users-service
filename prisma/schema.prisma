@@ -18,12 +18,12 @@ model User {
   lastName  String? @map("last_name") @db.VarChar(100)
   password  String? @db.VarChar(255)
 
-  googleAccessTOken   String? @db.LongText
-  facebookAccessTOken String? @db.LongText
-  refreshTokenHash    String? @db.LongText
+  googleAccessTOken   String? @map("google_access_token") @db.LongText
+  facebookAccessTOken String? @map("facebook_access_token") @db.LongText
+  refreshTokenHash    String? @map("refresh_token_hash") @db.LongText
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@index([email, firstName, lastName])
   @@map("users")
