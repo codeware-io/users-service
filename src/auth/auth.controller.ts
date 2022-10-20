@@ -30,7 +30,7 @@ export class AuthController {
   @Get('/google')
   @UseGuards(AuthGuard(StrategyNames.Google))
   @HttpCode(HttpStatus.OK)
-  async googleSignIn(@Req() req: Request) {
+  async googleSignIn() {
     return {
       status: 'success',
       message: 'You are already logged in!',
@@ -48,7 +48,7 @@ export class AuthController {
   @Get('/facebook')
   @UseGuards(AuthGuard(StrategyNames.Facebook))
   @HttpCode(HttpStatus.OK)
-  async facebookSignIn(@Req() req: Request) {
+  async facebookSignIn() {
     return {
       status: 'success',
       message: 'You are already logged in!',

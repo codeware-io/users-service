@@ -1,5 +1,3 @@
-import { Request } from 'express';
-
 /**
  * The type of the payload of the jwt token
  */
@@ -26,10 +24,3 @@ export type JwtTokens = {
   refreshToken: string;
   refreshExpire?: string;
 };
-
-/**
- * Include the jwt payload with the request data
- */
-export interface JwtRequest extends Request {
-  jwt?: JWT;
-}
