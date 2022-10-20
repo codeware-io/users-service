@@ -19,11 +19,12 @@ export type JWT = {
  */
 export type JwtTokens = {
   id: number;
-  name: string;
-  access_token: string;
-  access_expire: string;
-  refresh_token: string;
-  refresh_expire: string;
+  email: string;
+  firstName: string;
+  accessToken: string;
+  accessExpire?: string;
+  refreshToken: string;
+  refreshExpire?: string;
 };
 
 /**
