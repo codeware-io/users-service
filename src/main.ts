@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
+import { PrismaClientKnownRequestErrorExceptionFilter } from './common/exceptions';
 import { PrismaService } from './prisma/prisma.service';
 
 async function bootstrap() {
@@ -26,6 +27,9 @@ async function bootstrap() {
   // prisma shutdown hook
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
+
+  // global filters
+  app.useGlobalFilters(new PrismaClientKnownRequestErrorExceptionFilter());
 
   await app.listen(+port, () =>
     logger.log(`Application is running on port ${port}`),
