@@ -27,14 +27,17 @@ export class AuthController {
     return await this.service.signup(user);
   }
 
+  @Post('/signin')
+  @HttpCode(HttpStatus.OK)
+  async signin(@Body() user: UserDTO): Promise<JwtTokens> {
+    return await this.service.signin(user);
+  }
+
   @Get('/google')
   @UseGuards(AuthGuard(StrategyNames.Google))
   @HttpCode(HttpStatus.OK)
   async googleSignIn() {
-    return {
-      status: 'success',
-      message: 'You are already logged in!',
-    };
+    // code
   }
 
   @Get('/google/callback')
@@ -49,10 +52,7 @@ export class AuthController {
   @UseGuards(AuthGuard(StrategyNames.Facebook))
   @HttpCode(HttpStatus.OK)
   async facebookSignIn() {
-    return {
-      status: 'success',
-      message: 'You are already logged in!',
-    };
+    // code
   }
 
   @Get('/facebook/callback')

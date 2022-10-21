@@ -10,19 +10,32 @@ import { UserDTO } from './dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: UserDTO): Promise<User> {
+  async create(
+    data: UserDTO,
+    query?: Prisma.UserSelect,
+  ): Promise<Partial<User>> {
+    // hide some fields from the response
+    if (query?.password) query.password = false;
+    if (query?.googleAccessTOken) query.googleAccessTOken = false;
+    if (query?.facebookAccessTOken) query.facebookAccessTOken = false;
+
     // hash the password using argon2
     data.password = await argon2.hash(data.password);
 
     return this.prisma.user.create({
       data,
+      select: query,
     });
   }
 
   async update(
     where: Prisma.UserWhereUniqueInput,
     data: Prisma.UserUpdateInput,
-  ): Promise<User> {
+    query?: Prisma.UserSelect,
+  ): Promise<Partial<User>> {
+    // hide password from the response
+    if (query?.password) query.password = false;
+
     // hash the password using argon2
     if (data?.password) {
       data.password = await argon2.hash(String(data.password));
@@ -31,15 +44,25 @@ export class UsersService {
     return this.prisma.user.update({
       where,
       data,
+      select: query,
     });
   }
 
   async findAll(query?: Prisma.UserFindManyArgs): Promise<Partial<User>[]> {
+    // hide password from the response
+    if (query?.select?.password) query.select.password = false;
+
     return await this.prisma.user.findMany(query);
   }
 
-  async findUnique(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.findUnique({ where });
+  async findUnique(
+    where: Prisma.UserWhereUniqueInput,
+    query?: Prisma.UserSelect,
+  ): Promise<Partial<User>> {
+    // hide password from the response
+    if (query?.password) query.password = false;
+
+    return this.prisma.user.findUnique({ where, select: query });
   }
 
   async findOneOrCreateOne(data: UserDTO) {

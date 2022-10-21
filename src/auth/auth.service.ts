@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
@@ -20,7 +20,7 @@ export class AuthService {
 
   async signup(data: UserDTO): Promise<JwtTokens> {
     // find user or create one user using the user data
-    const user: User = await this.userService.create(data);
+    const user = await this.userService.create(data);
 
     // create the access token and refresh token
     const tokens: JwtTokens = await this.tokens(user);
@@ -32,6 +32,26 @@ export class AuthService {
     );
 
     // return tokens
+    return tokens;
+  }
+
+  async signin(data: UserDTO): Promise<JwtTokens> {
+    // find the user
+    const user = await this.userService.findUnique({ email: data?.email });
+
+    // if user not found
+    if (!user) throw new UnauthorizedException('Wrong email!');
+
+    // verify the password
+    if (!(await argon2.verify(user?.password, data?.password)))
+      throw new UnauthorizedException('Wrong password!');
+
+    // user exists so create tokens
+    const tokens = await this.tokens(user);
+
+    // now update the refresh token hash in the database
+    await this.updateRefreshTokenInTheDatabase(user?.id, tokens?.refreshToken);
+
     return tokens;
   }
 
@@ -62,7 +82,7 @@ export class AuthService {
    *
    * @returns JWT tokens - access token & refresh token and additional information
    */
-  async tokens(payload: User): Promise<JwtTokens> {
+  async tokens(payload: Partial<User>): Promise<JwtTokens> {
     const expires = this.config.get<string>('jwt.expires');
     const refreshExpires = this.config.get<string>('jwt.refreshExpires');
 
